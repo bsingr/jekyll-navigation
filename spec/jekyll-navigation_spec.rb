@@ -28,11 +28,11 @@ describe JekyllNavigation do
 
       its('display?') { should be_true }
       its('render') do
-        should == "<li ><a href=\"./root_lacks_config.html\">"\
+        should == "<li><a href=\"./root_lacks_config.html\">"\
                   "root_lacks_config</a></li>\n"\
-                  "<li ><a href=\"./root_level_with_sub.html\">"\
+                  "<li><a href=\"./root_level_with_sub.html\">"\
                   "root_level_with_sub</a></li>\n"\
-                  "<li ><a href=\"./root_level_without_sub.html\">"\
+                  "<li><a href=\"./root_level_without_sub.html\">"\
                   "root_level_without_sub</a></li>"
       end
     end
@@ -53,11 +53,11 @@ describe JekyllNavigation do
 
       its('display?') { should be_true }
       its('render') do
-        should == "<li ><a href=\"./root_lacks_config.html\">"\
+        should == "<li><a href=\"./root_lacks_config.html\">"\
                   "root_lacks_config</a></li>\n"\
                   "<li class='active'><a href=\"./root_level_with_sub.html\">"\
                   "root_level_with_sub</a></li>\n"\
-                  "<li ><a href=\"./root_level_without_sub.html\">"\
+                  "<li><a href=\"./root_level_without_sub.html\">"\
                   "root_level_without_sub</a></li>"
       end
     end
@@ -66,7 +66,7 @@ describe JekyllNavigation do
       include_context 'level=sub'
 
       its('display?') { should be_true }
-      its('render') { should == "<li ><a href=\"./sub_level.html\">sub_level</a></li>" }
+      its('render') { should == "<li><a href=\"./sub_level.html\">sub_level</a></li>" }
     end
   end
 
@@ -78,11 +78,11 @@ describe JekyllNavigation do
 
       its('display?') { should be_true }
       its('render') do
-        should == "<li ><a href=\"./root_lacks_config.html\">"\
+        should == "<li><a href=\"./root_lacks_config.html\">"\
                   "root_lacks_config</a></li>\n"\
                   "<li class='active'><a href=\"./root_level_with_sub.html\">"\
                   "root_level_with_sub</a></li>\n"\
-                  "<li ><a href=\"./root_level_without_sub.html\">"\
+                  "<li><a href=\"./root_level_without_sub.html\">"\
                   "root_level_without_sub</a></li>"
       end
     end
