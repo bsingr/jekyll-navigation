@@ -8,34 +8,30 @@ module JekyllNavigation
     end
 
     def title
-      if self["navigation"] && self["navigation"]["title"]
-        self["navigation"]["title"]
-      else
+      fetch_navigation_property('title') do
         self["title"] || File.basename(self["name"], File.extname(self["name"]))
       end
     end
 
     def parent
-      if self["navigation"] && self["navigation"]["parent"]
-        self["navigation"]["parent"]
-      else
-        nil
-      end
+      fetch_navigation_property('parent') { nil }
     end
 
     def order
-      if self["navigation"] && self["navigation"]["order"]
-        self["navigation"]["order"]
-      else
-        -1
-      end
+      fetch_navigation_property('order') { -1 }
     end
 
     def exclude?
-      if self["navigation"] && self["navigation"]["exclude"]
-        self["navigation"]["exclude"] == true
+      fetch_navigation_property('exclude') { false }
+    end
+
+  private
+
+    def fetch_navigation_property key, found = nil
+      if self["navigation"] && self["navigation"][key]
+        self["navigation"][key]
       else
-        false
+        yield
       end
     end
   end
