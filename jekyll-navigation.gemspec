@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = JekyllNavigation::VERSION
   gem.authors       = ["Jens Bissinger"]
   gem.email         = ["mail@jens-bissinger.de"]
-  gem.description   = %q{Navigations for Jekyll-based sites.}
+  gem.description   = %q{Navigations for Jekyll-based sites. Twitter Bootstrap compatible.}
   gem.summary       = "This gem provides [Jekyll](http://github.com"\
                       "/mojombo/jekyll) tags to render navigation lists."
   gem.homepage      = ""
