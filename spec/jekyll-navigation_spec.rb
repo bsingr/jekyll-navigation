@@ -98,44 +98,56 @@ describe JekyllNavigation do
   end
 
   describe 'navigation item' do
-    context 'empty' do
-      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md' }
-      its('title') { should == 'white' }
+    subject(:item) { described_class::AbstractNavigationItem.new({}) }
+
+    describe 'title' do
+      subject { item.title }
+
+      context 'empty' do
+        before { item.page = {'name' => 'white.md'} }
+        it { should == 'white' }
+      end
+
+      context 'title' do
+        before { item.page = {'name' => 'white.md',
+                              'title' => 'white like milk'} }
+        it { should == 'white like milk' }
+      end
+
+      context 'title + navigation' do
+        before { item.page = { 'name' => 'white.md',
+                               'title' => 'white like milk',
+                               'navigation' => {}} }
+        it { should == 'white like milk' }
+      end
+
+      context 'title + navigation title' do
+        before { item.page = {'name' => 'white.md',
+                              'title' => 'white like milk',
+                              'navigation' => {
+                                'title' => 'white like latte' }} }
+        it { should == 'white like latte' }
+      end
     end
 
-    context 'title' do
-      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md',
-                                           'title' => 'white like milk'}
-      its('title') { should == 'white like milk' }
-    end
+    describe 'parent' do
+      subject { item.parent }
+      
+      context 'no parent' do
+        before { item.page = {} }
+        it { should be_nil }
+      end
 
-    context 'title + navigation' do
-      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md',
-                                           'title' => 'white like milk',
-                                           'navigation' => {} }
-      its('title') { should == 'white like milk' }
-    end
+      context 'navigation + no parent' do
+        before { item.page = {'navigation' => {}} }
+        it { should be_nil }
+      end
 
-    context 'title + navigation title' do
-      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md',
-                                           'title' => 'white like milk',
-                                           'navigation' => { 'title' => 'white like latte' } }
-      its('title') { should == 'white like latte' }
-    end
-
-    context 'no parent' do
-      subject { described_class::AbstractNavigationItem.new({}) }
-      its('parent') { should be_nil }
-    end
-
-    context 'navigation + no parent' do
-      subject { described_class::AbstractNavigationItem.new 'navigation' => {} }
-      its('parent') { should be_nil }
-    end
-
-    context 'navigation parent' do
-      subject { described_class::AbstractNavigationItem.new 'navigation' => { 'parent' => '/foo.html' } }
-      its('parent') { should == '/foo.html' }
+      context 'navigation parent' do
+        before { item.page = {'navigation' => {
+                                'parent' => '/foo.html' }} }
+        it { should == '/foo.html' }
+      end
     end
   end
 end
