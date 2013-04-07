@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{page.title}} | jekyll-navigation gem example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+  </head>
+  <body style="margin-top: 50px;">
+    <div class="container">
+      <div class="row">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav">
+              {% navigation root %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% if_navigation sub %}
+        <div class="row">
+          <ul class="nav nav-pills">
+            {% navigation sub %}
+          </ul>
+        </div>
+      {% endif_navigation %}
+      <div class="row">
+        {{ content }}
+      </div>
+      <div class="row">
+        <p>(c) 2013. Jens Bissinger - <a href="/imprint.html">imprint</a></p>
+      </div>
+    </div>
+  </body>
+</html>
