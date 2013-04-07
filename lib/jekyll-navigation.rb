@@ -2,6 +2,34 @@ require "jekyll-navigation/version"
 require "liquid"
 
 module JekyllNavigation
+  class AbstractNavigationItem < Struct.new(:page)
+    def [] key
+      page[key]
+    end
+    
+    def title
+      if self["navigation"] && self["navigation"]["title"]
+        self["navigation"]["title"]
+      else
+        self["title"] || File.basename(self["name"], File.extname(self["name"]))
+      end
+    end
+  end
+
+  class CurrentNavigationItem < AbstractNavigationItem
+    
+  end
+
+  class NavigationItem < AbstractNavigationItem
+    def data
+      page.data.merge("url" => page.url, "name" => page.name)
+    end
+
+    def [] key
+      data[key]
+    end
+  end
+
   class Navigation < Struct.new(:context, :level)
     def display?
       !render.empty?
@@ -11,19 +39,11 @@ module JekyllNavigation
       pages.map do |page|
         css = (current_page["url"] == page["url"] ||
                navigation_parent_for(current_page) == page["url"]) ? " class='active'" : ""
-        %Q{<li#{css}><a href=".#{page["url"]}">#{navigation_title_for(page)}</a></li>}
+        %Q{<li#{css}><a href=".#{page["url"]}">#{page.title}</a></li>}
       end.join("\n")
     end
 
   private
-
-    def navigation_title_for page
-      if page["navigation"] && page["navigation"]["title"]
-        page["navigation"]["title"]
-      else
-        page["title"] || File.basename(page["name"], File.extname(page["name"]))
-      end
-    end
 
     def navigation_parent_for page
       if page["navigation"] && page["navigation"]["parent"]
@@ -50,12 +70,12 @@ module JekyllNavigation
     end
 
     def current_page
-      context["page"]
+      CurrentNavigationItem.new context["page"]
     end
 
     def all_pages
       context["site"]["pages"].map do |page|
-        page.data.merge("url" => page.url, "name" => page.name)
+        NavigationItem.new page
       end
     end
 

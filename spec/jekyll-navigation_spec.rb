@@ -96,4 +96,31 @@ describe JekyllNavigation do
       end
     end
   end
+
+  describe 'navigation item' do
+    context 'empty' do
+      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md' }
+      its('title') { should == 'white' }
+    end
+
+    context 'title' do
+      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md',
+                                           'title' => 'white like milk'}
+      its('title') { should == 'white like milk' }
+    end
+
+    context 'title + navigation' do
+      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md',
+                                           'title' => 'white like milk',
+                                           'navigation' => {} }
+      its('title') { should == 'white like milk' }
+    end
+
+    context 'title + navigation title' do
+      subject { described_class::AbstractNavigationItem.new 'name' => 'white.md',
+                                           'title' => 'white like milk',
+                                           'navigation' => { 'title' => 'white like latte' } }
+      its('title') { should == 'white like latte' }
+    end
+  end
 end
