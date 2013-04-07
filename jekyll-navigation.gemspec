@@ -19,5 +19,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "liquid"
   gem.add_development_dependency "rspec"
+  gem.add_development_dependency "guard-rspec"
+  gem.add_development_dependency "terminal-notifier-guard"
   gem.add_development_dependency "jekyll"
 end
