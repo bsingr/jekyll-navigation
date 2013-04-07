@@ -169,5 +169,25 @@ describe JekyllNavigation do
         it { should == 3 }
       end
     end
+
+    describe 'exclude?' do
+      subject { item.exclude? }
+      
+      context 'no exclude' do
+        before { item.page = {} }
+        it { should be_false }
+      end
+
+      context 'navigation + no exclude' do
+        before { item.page = {'navigation' => {}} }
+        it { should be_false }
+      end
+
+      context 'navigation exclude' do
+        before { item.page = {'navigation' => {
+                                'exclude' => true }} }
+        it { should be_true }
+      end
+    end
   end
 end

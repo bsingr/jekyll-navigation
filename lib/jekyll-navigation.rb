@@ -30,6 +30,14 @@ module JekyllNavigation
         -1
       end
     end
+
+    def exclude?
+      if self["navigation"] && self["navigation"]["exclude"]
+        self["navigation"]["exclude"] == true
+      else
+        false
+      end
+    end
   end
 
   class CurrentNavigationItem < AbstractNavigationItem
@@ -61,14 +69,6 @@ module JekyllNavigation
 
   private
 
-    def navigation_exclude_for page
-      if page["navigation"] && page["navigation"]["exclude"]
-        page["navigation"]["exclude"] == true
-      else
-        false
-      end
-    end
-
     def current_page
       CurrentNavigationItem.new context["page"]
     end
@@ -81,7 +81,7 @@ module JekyllNavigation
 
     def pages
       all_pages.map do |page|
-        next if navigation_exclude_for(page)
+        next if page.exclude?
         if level == "root" &&
           page.parent == nil # on the root level there is no parent
           page
