@@ -1,0 +1,14 @@
+---
+root.md:
+  navigation:
+    exclude: true
+lacks_config.md: {}
+root_level_with_sub.md:
+  navigation:
+    order: 1
+root_level_without_sub.md:
+  navigation:
+    order: 2
+sub_level:
+  navigation:
+    parent: /root_level_with_sub.html
