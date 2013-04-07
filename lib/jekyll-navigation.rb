@@ -6,12 +6,20 @@ module JekyllNavigation
     def [] key
       page[key]
     end
-    
+
     def title
       if self["navigation"] && self["navigation"]["title"]
         self["navigation"]["title"]
       else
         self["title"] || File.basename(self["name"], File.extname(self["name"]))
+      end
+    end
+
+    def parent
+      if self["navigation"] && self["navigation"]["parent"]
+        self["navigation"]["parent"]
+      else
+        nil
       end
     end
   end
@@ -38,20 +46,12 @@ module JekyllNavigation
     def render
       pages.map do |page|
         css = (current_page["url"] == page["url"] ||
-               navigation_parent_for(current_page) == page["url"]) ? " class='active'" : ""
+               current_page.parent == page["url"]) ? " class='active'" : ""
         %Q{<li#{css}><a href=".#{page["url"]}">#{page.title}</a></li>}
       end.join("\n")
     end
 
   private
-
-    def navigation_parent_for page
-      if page["navigation"] && page["navigation"]["parent"]
-        page["navigation"]["parent"]
-      else
-        nil
-      end
-    end
 
     def navigation_order_for page
       if page["navigation"] && page["navigation"]["order"]
@@ -82,15 +82,14 @@ module JekyllNavigation
     def pages
       all_pages.map do |page|
         next if navigation_exclude_for(page)
-        page_parent = navigation_parent_for(page)
         if level == "root" &&
-          page_parent == nil # on the root level there is no parent
+          page.parent == nil # on the root level there is no parent
           page
         elsif level == "sub" &&
-          page_parent != nil && # on the sub level there must be a parent
+          page.parent != nil && # on the sub level there must be a parent
           (
-            page_parent == navigation_parent_for(current_page) || # either the page shares a common parent
-            page_parent == current_page["url"] # or the current page is the parent
+            page.parent == current_page.parent || # either the page shares a common parent
+            page.parent == current_page["url"] # or the current page is the parent
           )
           page
         end

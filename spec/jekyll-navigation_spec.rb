@@ -122,5 +122,20 @@ describe JekyllNavigation do
                                            'navigation' => { 'title' => 'white like latte' } }
       its('title') { should == 'white like latte' }
     end
+
+    context 'no parent' do
+      subject { described_class::AbstractNavigationItem.new({}) }
+      its('parent') { should be_nil }
+    end
+
+    context 'navigation + no parent' do
+      subject { described_class::AbstractNavigationItem.new 'navigation' => {} }
+      its('parent') { should be_nil }
+    end
+
+    context 'navigation parent' do
+      subject { described_class::AbstractNavigationItem.new 'navigation' => { 'parent' => '/foo.html' } }
+      its('parent') { should == '/foo.html' }
+    end
   end
 end
