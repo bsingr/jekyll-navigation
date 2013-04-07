@@ -2,29 +2,63 @@
 
 This gem provides [Jekyll](http://github.com/mojombo/jekyll) tags to render navigation lists.
 
-## Usage
+* generates [Twitter Bootstrap](http://github.com/twitter/bootstrap) compatible html markup
+* supports 2 separate navigation layers (root + sub)
+* supports ordering 
 
-Your pages:
+![example](resources/example.png)]
 
-    - home.md
-    - portfolio.md
-    - contact.md
-    - imprint.md
+## Example Usage
 
-In your layout.html:
+In `example-jekyll-site/` folder you'll find a complete jekyll project with navigation example.
 
-    <ul class='nav'>
-      {% navigation root %}
-    </ul>
+Navigation is generated from the basic pages:
 
-Output for portfolio.html:
+	contact.md
+	digital_art.md
+	imprint.md
+	index.md
+	portfolio.md
+	traditional_art.md
 
-    <ul class='nav'>
-      <li><a href="/home.html">home</a></li>
-      <li class='active'><a href="/portfolio.html">portfolio</a></li>
-      <li><a href="/contact.html">contact</a></li>
-      <li><a href="/imprint.html">imprint</a></li>
-    </ul>
+Excerpt from `example-jekyll-site/layouts/default.html`:
+
+      <div class="row">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav">
+              {% navigation root %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% if_navigation sub %}
+        <div class="row">
+          <ul class="nav nav-pills">
+            {% navigation sub %}
+          </ul>
+        </div>
+      {% endif_navigation %}
+
+Rendered example output `example-jekyll-site/_site/digital_art.html`:
+
+      <div class="row">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav">
+              <li><a href="./index.html">home</a></li>
+              <li class='active'><a href="./portfolio.html">portfolio</a></li>
+			  <li><a href="./contact.html">contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <ul class="nav nav-pills">
+          <li class='active'><a href="./digital_art.html">digital</a></li>
+		  <li><a href="./traditional_art.html">traditional</a></li>
+        </ul>
+      </div>
 
 ## Installation
 
