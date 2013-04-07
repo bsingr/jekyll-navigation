@@ -149,5 +149,25 @@ describe JekyllNavigation do
         it { should == '/foo.html' }
       end
     end
+
+    describe 'order' do
+      subject { item.order }
+      
+      context 'no order' do
+        before { item.page = {} }
+        it { should == -1 }
+      end
+
+      context 'navigation + no order' do
+        before { item.page = {'navigation' => {}} }
+        it { should == -1 }
+      end
+
+      context 'navigation order' do
+        before { item.page = {'navigation' => {
+                                'order' => 3 }} }
+        it { should == 3 }
+      end
+    end
   end
 end

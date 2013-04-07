@@ -22,6 +22,14 @@ module JekyllNavigation
         nil
       end
     end
+
+    def order
+      if self["navigation"] && self["navigation"]["order"]
+        self["navigation"]["order"]
+      else
+        -1
+      end
+    end
   end
 
   class CurrentNavigationItem < AbstractNavigationItem
@@ -52,14 +60,6 @@ module JekyllNavigation
     end
 
   private
-
-    def navigation_order_for page
-      if page["navigation"] && page["navigation"]["order"]
-        page["navigation"]["order"]
-      else
-        -1
-      end
-    end
 
     def navigation_exclude_for page
       if page["navigation"] && page["navigation"]["exclude"]
@@ -93,9 +93,7 @@ module JekyllNavigation
           )
           page
         end
-      end.compact.sort_by do |page|
-        navigation_order_for(page)
-      end
+      end.compact.sort_by &:order
     end
   end
 
