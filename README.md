@@ -99,7 +99,7 @@ Then add this plugin:
 
 ## Licencse
 
-See [LICENSE.txt](LICENSE.txt)
+Copyright 2014 dpree. See [LICENSE.txt](LICENSE.txt)
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dpree/jekyll-navigation/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
